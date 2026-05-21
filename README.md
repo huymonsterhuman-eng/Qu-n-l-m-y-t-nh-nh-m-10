@@ -1,18 +1,19 @@
-# Quản Lý Máy Tính — Nhóm 10
+# Quản Lý Kho Cửa Hàng Máy Tính — Nhóm 10
 
-Ứng dụng desktop quản lý kho cửa hàng máy tính, xây dựng bằng Java Swing + MySQL theo kiến trúc MVC.
+Ứng dụng desktop quản lý kho cửa hàng máy tính **Nguyễn Công PC**, xây dựng bằng **Java Swing + MySQL** theo kiến trúc **MVC + DAO**.
 
 ---
 
-## Tính năng
+## Tính năng chính
 
-- Đăng nhập / đăng xuất (mật khẩu mã hóa BCrypt)
-- Quản lý sản phẩm (máy tính, linh kiện)
+- Đăng nhập / đăng xuất với phân quyền theo vai trò (Admin, Quản lý kho, Nhân viên nhập, Nhân viên xuất)
+- Quản lý sản phẩm: Laptop và PC với thông số kỹ thuật riêng từng loại
 - Quản lý nhà cung cấp
-- Quản lý phiếu nhập / xuất kho
-- Theo dõi tồn kho real-time
-- Quản lý tài khoản người dùng
-- Thống kê doanh thu, xuất báo cáo Excel / PDF
+- Lập và xử lý phiếu nhập / xuất kho (hoàn thành, hủy, sửa, xóa)
+- Theo dõi tồn kho thực tế và khả dụng theo thời gian thực
+- Xuất kho theo nguyên tắc **FIFO** (nhập trước xuất trước)
+- Thống kê, biểu đồ và xuất báo cáo ra **Excel / PDF**
+- Mã hóa mật khẩu bằng **BCrypt**
 
 ---
 
@@ -23,7 +24,7 @@
 | Ngôn ngữ | Java 17+ |
 | Build tool | Maven |
 | GUI | Java Swing + FlatLaf v3.4 |
-| Cơ sở dữ liệu | MySQL 8+ |
+| Cơ sở dữ liệu | MySQL (XAMPP) |
 | JDBC Driver | MySQL Connector/J v9.2.0 |
 | Biểu đồ | JFreeChart v1.5.4 |
 | Xuất Excel | Apache POI v5.2.3 |
@@ -34,52 +35,74 @@
 
 ## Yêu cầu môi trường
 
-- **Java** 17 trở lên
-- **MySQL** 8.0 trở lên
-- **Maven** 3.8 trở lên
+- **Java** 17 trở lên — [Tải tại đây](https://www.oracle.com/java/technologies/downloads/)
+- **XAMPP** (bao gồm MySQL) — [Tải tại đây](https://www.apachefriends.org/)
+- **Maven** 3.8 trở lên — [Tải tại đây](https://maven.apache.org/download.cgi)
 
 ---
 
-## Hướng dẫn cài đặt & chạy
+## Hướng dẫn cài đặt và chạy
 
-### 1. Clone repository
+### Bước 1 — Clone repository
 
 ```bash
 git clone https://github.com/huymonsterhuman-eng/Qu-n-l-m-y-t-nh-nh-m-10.git
 cd Qu-n-l-m-y-t-nh-nh-m-10
 ```
 
-### 2. Tạo cơ sở dữ liệu
+### Bước 2 — Khởi động XAMPP và MySQL
 
-Mở MySQL client (Workbench hoặc CLI) và chạy toàn bộ lệnh `CREATE TABLE` trong file [`database.md`](database.md).
+1. Mở **XAMPP Control Panel**
+2. Nhấn **Start** ở dòng **MySQL**
+3. Đảm bảo MySQL đang chạy trên cổng **3306**
 
-```sql
--- Ví dụ kết nối MySQL CLI:
-mysql -u root -p
-source database.md
-```
+### Bước 3 — Tạo cơ sở dữ liệu
 
-### 3. Cấu hình kết nối Database
+1. Mở trình duyệt, truy cập **http://localhost/phpmyadmin**
+2. Nhấn **New** (bên trái) để tạo database mới
+3. Đặt tên database là `quanlimaytinh`, nhấn **Create**
+4. Chọn database `quanlimaytinh` vừa tạo
+5. Chọn tab **Import** → nhấn **Choose File**
+6. Chọn file `database.sql` trong thư mục dự án
+7. Nhấn **Import** và chờ hoàn tất
 
-Mở file `src/main/java/database/JDBCUtil.java` và sửa 3 thông số sau cho khớp với MySQL của bạn:
+
+
+### Bước 4 — Kiểm tra cấu hình kết nối
+
+Mở file `src/main/java/database/JDBCUtil.java` và kiểm tra 3 dòng sau:
 
 ```java
-private static final String URL = "jdbc:mysql://localhost:3306/TEN_DATABASE";
-private static final String USER = "root";
-private static final String PASSWORD = "mat_khau_cua_ban";
+private static final String URL      = "jdbc:mysql://localhost:3306/quanlimaytinh";
+private static final String USERNAME = "root";
+private static final String PASSWORD = "";
 ```
 
-### 4. Build dự án
+> Đây là cấu hình mặc định của XAMPP. Nếu bạn đặt mật khẩu riêng cho MySQL thì sửa `PASSWORD` tương ứng.
+
+### Bước 5 — Build dự án
 
 ```bash
 mvn clean compile
 ```
 
-### 5. Chạy ứng dụng
+### Bước 6 — Chạy ứng dụng
 
 ```bash
-mvn exec:java -Dexec.mainClass="view.Login"
+mvn exec:java -Dexec.mainClass="View.Login"
 ```
+
+---
+
+## Tài khoản mặc định
+
+Sau khi import `database.sql`, tài khoản **Admin** được seed sẵn vào hệ thống:
+
+| Tên đăng nhập | Mật khẩu | Vai trò |
+|---|---|---|
+| `admin` | `admin123` | Admin |
+
+> **Lưu ý:** Tài khoản Admin không thể tạo/sửa/xóa qua giao diện — được bảo vệ trực tiếp trong DB. Các vai trò còn lại (Quản lý kho, Nhân viên nhập, Nhân viên xuất) được tạo qua phân hệ **Quản lý tài khoản** sau khi đăng nhập Admin.
 
 ---
 
@@ -87,21 +110,31 @@ mvn exec:java -Dexec.mainClass="view.Login"
 
 ```
 src/main/java/
-├── database/       # JDBCUtil — singleton kết nối MySQL
-├── model/          # Entity: MayTinh, Account, NhaCungCap, ...
-├── DAO/            # Data Access Objects (CRUD)
-├── controller/     # BCrypt, Search, WritePDF, SendEmailSMTP, ...
-└── view/           # Giao diện Swing (.java + .form)
+├── database/       # JDBCUtil — singleton kết nối MySQL, quản lý transaction
+├── model/          # Entity: MayTinh, Laptop, PC, Account, NhaCungCap, PhieuNhap, Phieuxuat, ...
+├── DAO/            # Data Access Objects — toàn bộ truy vấn SQL theo từng entity
+├── Controller/     # BCrypt, ConvertDate, Search*, WritePDF, SendEmailSMTP
+└── View/           # Giao diện Swing (.java + .form)
 ```
 
 ---
 
-## Tài khoản mặc định
+## Phân quyền theo vai trò
 
-> Sau khi tạo database, thêm tài khoản admin theo hướng dẫn trong `database.md`.
+| Chức năng | Admin | Quản lý kho | NV Nhập | NV Xuất |
+|---|:---:|:---:|:---:|:---:|
+| Quản lý tài khoản | ✅ | ❌ | ❌ | ❌ |
+| Quản lý sản phẩm | ✅ | ✅ | ❌ | ❌ |
+| Quản lý nhà cung cấp | ✅ | ✅ | ❌ | ❌ |
+| Tạo / hoàn thành / hủy phiếu nhập | ✅ | ✅ | ✅ | ❌ |
+| Sửa / xóa phiếu nhập | ✅ | ✅ | ❌ | ❌ |
+| Tạo / hoàn thành / hủy phiếu xuất | ✅ | ✅ | ❌ | ✅ |
+| Sửa / xóa phiếu xuất | ✅ | ✅ | ❌ | ❌ |
+| Xem tồn kho | ✅ | ✅ | ✅ | ✅ |
+| Thống kê & báo cáo | ✅ | ✅ | ❌ | ❌ |
 
 ---
 
 ## Nhóm thực hiện
 
-Nhóm 10 — Môn Lập trình ứng dụng
+**Nhóm 10** — Môn Lập trình ứng dụng
