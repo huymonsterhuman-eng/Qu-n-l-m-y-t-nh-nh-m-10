@@ -100,7 +100,7 @@ Sau khi import `database.sql`, tài khoản **Admin** được seed sẵn vào h
 
 | Tên đăng nhập | Mật khẩu | Vai trò |
 |---|---|---|
-| `admin` | `admin123` | Admin |
+| `admin` | `23112004` | Admin |
 
 > **Lưu ý:** Tài khoản Admin không thể tạo/sửa/xóa qua giao diện — được bảo vệ trực tiếp trong DB. Các vai trò còn lại (Quản lý kho, Nhân viên nhập, Nhân viên xuất) được tạo qua phân hệ **Quản lý tài khoản** sau khi đăng nhập Admin.
 
