@@ -52,6 +52,74 @@ public class NhapKho extends javax.swing.JFrame {
         NavbarMenu.setBackground(DefaultColor);
         PhieuNhap.setBackground(DefaultColor);
         NhapHang.setBackground(ClickedColor);
+
+        // Tab Sản phẩm (xem, không CRUD)
+        sanPhamPanel = new javax.swing.JPanel();
+        sanPhamPanel.setBackground(DefaultColor);
+        sanPhamPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        javax.swing.JLabel lbSanPham = new javax.swing.JLabel("SẢN PHẨM");
+        lbSanPham.setFont(new java.awt.Font("SF Pro Display", 1, 18));
+        lbSanPham.setForeground(new java.awt.Color(255, 255, 255));
+        lbSanPham.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8_product_25px_2.png")));
+        javax.swing.GroupLayout spLayout = new javax.swing.GroupLayout(sanPhamPanel);
+        sanPhamPanel.setLayout(spLayout);
+        spLayout.setHorizontalGroup(spLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(spLayout.createSequentialGroup()
+                .addGap(29, 29, 29).addComponent(lbSanPham)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        spLayout.setVerticalGroup(spLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(spLayout.createSequentialGroup()
+                .addContainerGap().addComponent(lbSanPham)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        sanPhamPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                sanPhamPanel.setBackground(ClickedColor);
+                tonKhoPanel.setBackground(DefaultColor);
+                NhapHang.setBackground(DefaultColor);
+                PhieuNhap.setBackground(DefaultColor);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ProductForm pf = new ProductForm();
+                pf.checkRole(currentAcc);
+                MainContent.removeAll();
+                MainContent.add(pf).setVisible(true);
+            }
+        });
+        NavbarMenu.add(sanPhamPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 240, 40));
+
+        // Tab Tồn kho
+        tonKhoPanel = new javax.swing.JPanel();
+        tonKhoPanel.setBackground(DefaultColor);
+        tonKhoPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        javax.swing.JLabel lbTonKho = new javax.swing.JLabel("TỒN KHO");
+        lbTonKho.setFont(new java.awt.Font("SF Pro Display", 1, 18));
+        lbTonKho.setForeground(new java.awt.Color(255, 255, 255));
+        lbTonKho.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/icons8-warehouse-25.png")));
+        javax.swing.GroupLayout tkLayout = new javax.swing.GroupLayout(tonKhoPanel);
+        tonKhoPanel.setLayout(tkLayout);
+        tkLayout.setHorizontalGroup(tkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tkLayout.createSequentialGroup()
+                .addGap(29, 29, 29).addComponent(lbTonKho)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        tkLayout.setVerticalGroup(tkLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tkLayout.createSequentialGroup()
+                .addContainerGap().addComponent(lbTonKho)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+        tonKhoPanel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tonKhoPanel.setBackground(ClickedColor);
+                sanPhamPanel.setBackground(DefaultColor);
+                NhapHang.setBackground(DefaultColor);
+                PhieuNhap.setBackground(DefaultColor);
+            }
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TonKhoForm tk = new TonKhoForm();
+                MainContent.removeAll();
+                MainContent.add(tk).setVisible(true);
+            }
+        });
+        NavbarMenu.add(tonKhoPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 260, 240, 40));
+
         ImageIcon logo = new ImageIcon(getClass().getResource("/icon/logo.png"));
         setIconImage(logo.getImage());
     }
@@ -266,14 +334,16 @@ public class NhapKho extends javax.swing.JFrame {
         // TODO add your handling code here:
         PhieuNhap.setBackground(DefaultColor);
         NhapHang.setBackground(ClickedColor);
-
+        sanPhamPanel.setBackground(DefaultColor);
+        tonKhoPanel.setBackground(DefaultColor);
     }//GEN-LAST:event_NhapHangMousePressed
 
     private void PhieuNhapMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PhieuNhapMousePressed
         // TODO add your handling code here:
         PhieuNhap.setBackground(ClickedColor);
         NhapHang.setBackground(DefaultColor);
-
+        sanPhamPanel.setBackground(DefaultColor);
+        tonKhoPanel.setBackground(DefaultColor);
     }//GEN-LAST:event_PhieuNhapMousePressed
 
     private void DangXuatMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DangXuatMousePressed
@@ -345,6 +415,9 @@ public class NhapKho extends javax.swing.JFrame {
     public void setName(String name) {
         this.NameUser.setText(name);
     }
+
+    private javax.swing.JPanel sanPhamPanel;
+    private javax.swing.JPanel tonKhoPanel;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Account;
