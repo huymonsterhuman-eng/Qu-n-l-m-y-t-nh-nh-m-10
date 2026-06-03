@@ -7,3 +7,12 @@ target/
 *.iml
 .DS_Store
 Thumbs.db
+
+# Internal docs — không push lên GitHub
+CLAUDE.md
+Progress.md
+anahata.md
+business_rule.md
+database.md
+log.md
+rule.md
